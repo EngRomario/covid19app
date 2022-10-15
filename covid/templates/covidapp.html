@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- JavaScript Bundle with Popper -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap-5.2.2-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.2.2-dist/css/bootstrap.min.css.map' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.2.2-dist/js/bootstrap.min.js' %}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<title>Covid APP</title>
+</head>
+<body>
+<div class="container-fluid p-0">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg justify-content-center">
+        <div class="" style="text-align: center; color: white; font-size: xx-large">COVID APP</div>
+    </nav>
+</div>
+<div class="container justify-content-center">
+    <div class="input-group justify-content-center">
+        <select class="form-select" id="country_select" aria-label="Default select example">
+            {% for st in states %}
+                <option value="{{ st }}">{{ st }}</option>
+            {% endfor %}
+        </select>
+        <button method="GET" href="{% url 'Country' %}" id="get_country_select" type="button"
+                class="btn btn-success btn-lg">Pesquisar
+        </button>
+    </div>
+</div>
+<div id="fig-01" class="justify-content-center">
+</div>
+<div id="fig-02" class="justify-content-center">
+</div>
+<div id="fig-03" class="justify-content-center">
+</div>
+<div id="fig-04" class="justify-content-center">
+</div>
+<div id="fig-05" class="justify-content-center">
+</div>
+<div id="fig-06" class="justify-content-center">
+</div>
+<div id="fig-07" class="justify-content-center">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script type="text/javascript">
+    let country_select;
+    document.getElementById('get_country_select').addEventListener('click', function () {
+        country_select = document.getElementById('country_select').value;
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'Country' %}",
+            data: {
+                country_name: country_select
+            },
+            success: function (response) {
+                let count = 1
+                $.each(response, function (k, v) {
+                    $('#fig-0' + count.toString()).empty();
+                    $('#fig-0' + count.toString()).prepend(v);
+                    count++;
+                })
+            }
+        })
+    });
+
+
+</script>
+</body>
+</html>
